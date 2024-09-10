@@ -9,6 +9,7 @@ The player assumes the role of a character trapped in the astral realm, undergoi
 The game features challenging combat mechanics, using a combination of mouse controls for attack direction and keyboard controls for character movement. The controls are designed to be responsive and intuitive, providing a smooth gameplay experience.
 
 
+
 Assets being used:
 
 Pixel Art Top Down - Basic by Cainos: https://cainos.itch.io/pixel-art-top-down-basic
