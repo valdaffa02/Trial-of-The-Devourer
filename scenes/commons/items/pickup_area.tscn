@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://8q6gm7o444bp"]
+
+[node name="PickupArea" type="Area2D"]
+collision_layer = 16
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]

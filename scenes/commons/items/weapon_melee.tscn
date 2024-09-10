@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://cp7lrfpesfoth"]
+
+[ext_resource type="Script" path="res://scenes/commons/items/weapon_melee.gd" id="1_8q2sq"]
+[ext_resource type="PackedScene" uid="uid://ca8ffnxbl42lu" path="res://scenes/commons/components/hitbox_component/hitbox_component.tscn" id="1_cbn4i"]
+[ext_resource type="PackedScene" uid="uid://8q6gm7o444bp" path="res://scenes/commons/items/pickup_area.tscn" id="3_bbia4"]
+
+[node name="WeaponMelee" type="Node2D"]
+script = ExtResource("1_8q2sq")
+
+[node name="WeaponSprite" type="Sprite2D" parent="."]
+
+[node name="HitboxComponent" parent="." instance=ExtResource("1_cbn4i")]
+
+[node name="PickupArea" parent="." instance=ExtResource("3_bbia4")]
+
+[connection signal="area_entered" from="HitboxComponent" to="." method="_on_hitbox_component_area_entered"]
+[connection signal="body_entered" from="PickupArea" to="." method="_on_pickup_area_body_entered"]
+[connection signal="body_exited" from="PickupArea" to="." method="_on_pickup_area_body_exited"]

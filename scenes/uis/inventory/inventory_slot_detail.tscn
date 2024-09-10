@@ -1,0 +1,102 @@
+[gd_scene load_steps=4 format=3 uid="uid://dsmrx0svvbn36"]
+
+[ext_resource type="Script" path="res://scenes/uis/inventory/inventory_slot_detail.gd" id="1_xjaac"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t7aaa"]
+bg_color = Color(0.180392, 0.180392, 0.180392, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_shorp"]
+bg_color = Color(0.180392, 0.180392, 0.180392, 1)
+
+[node name="InventorySlotDetail" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_xjaac")
+
+[node name="DetailPanel" type="PanelContainer" parent="."]
+z_index = 1
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 194.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_t7aaa")
+
+[node name="MarginContainer" type="MarginContainer" parent="DetailPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DetailPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="ItemType" type="Label" parent="DetailPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "Item Type
+"
+
+[node name="ItemName" type="Label" parent="DetailPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "Item Name"
+
+[node name="HSeparator" type="HSeparator" parent="DetailPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ItemDescription" type="RichTextLabel" parent="DetailPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 15
+text = "asfasfasfdsgfhdfhdfhbxfvwgvxcvxcv
+
+"
+fit_content = true
+scroll_active = false
+
+[node name="ActionPanel" type="PanelContainer" parent="."]
+visible = false
+z_index = 1
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 85.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_shorp")
+
+[node name="MarginContainer" type="MarginContainer" parent="ActionPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ActionPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="EquipPrimaryButton" type="Button" parent="ActionPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="EquipSecondaryButton" type="Button" parent="ActionPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="UseButton" type="Button" parent="ActionPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 15
+text = "USE"
+
+[node name="DropButton" type="Button" parent="ActionPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 15
+text = "DROP"
+
+[node name="AssignHotbarButton" type="Button" parent="ActionPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Assign Hotbar"
+
+[connection signal="pressed" from="ActionPanel/MarginContainer/VBoxContainer/EquipPrimaryButton" to="." method="_on_equip_primary_button_pressed"]
+[connection signal="pressed" from="ActionPanel/MarginContainer/VBoxContainer/EquipSecondaryButton" to="." method="_on_equip_secondary_button_pressed"]
+[connection signal="pressed" from="ActionPanel/MarginContainer/VBoxContainer/UseButton" to="." method="_on_use_button_pressed"]
+[connection signal="pressed" from="ActionPanel/MarginContainer/VBoxContainer/DropButton" to="." method="_on_drop_button_pressed"]
+[connection signal="pressed" from="ActionPanel/MarginContainer/VBoxContainer/AssignHotbarButton" to="." method="_on_assign_hotbar_button_pressed"]

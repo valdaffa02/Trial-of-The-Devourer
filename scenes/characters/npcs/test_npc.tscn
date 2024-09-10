@@ -1,0 +1,63 @@
+[gd_scene load_steps=11 format=3 uid="uid://dvrjywg20m8j5"]
+
+[ext_resource type="Script" path="res://scenes/characters/npcs/test_npc.gd" id="1_1di7x"]
+[ext_resource type="PackedScene" uid="uid://woqyb8nubk4u" path="res://scenes/characters/races/humanoid/humanoid_body.tscn" id="1_5fqqe"]
+[ext_resource type="PackedScene" uid="uid://dps7hnx6wx086" path="res://scenes/characters/races/humanoid/humanoid_head.tscn" id="2_jd8vj"]
+[ext_resource type="Texture2D" uid="uid://bj5unag4bq4u" path="res://assets/images/characters/npc/heroine_body_01.png" id="3_d1pca"]
+[ext_resource type="PackedScene" uid="uid://5vx2dudbqfw7" path="res://scenes/characters/races/humanoid/humanoid_hand.tscn" id="3_dm026"]
+[ext_resource type="PackedScene" uid="uid://b0gtefpxfqvfp" path="res://scenes/commons/components/hurtbox_component/hurtbox_component.tscn" id="4_vtec7"]
+[ext_resource type="Texture2D" uid="uid://drwe7kbfp1p7s" path="res://assets/images/characters/npc/heroine_head_01.png" id="5_dkhvq"]
+[ext_resource type="Texture2D" uid="uid://cegilkmrl7sd6" path="res://assets/images/characters/npc/heroine_hand_01.png" id="7_4x1hb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7ggf4"]
+radius = 12.0416
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jn75t"]
+size = Vector2(25, 65)
+
+[node name="TestNpc" type="CharacterBody2D" groups=["Npcs"]]
+collision_layer = 4
+collision_mask = 11
+script = ExtResource("1_1di7x")
+
+[node name="HumanoidBody" parent="." instance=ExtResource("1_5fqqe")]
+
+[node name="BodySprite" parent="HumanoidBody" index="0"]
+texture = ExtResource("3_d1pca")
+hframes = 1
+vframes = 1
+
+[node name="HumanoidHead" parent="." instance=ExtResource("2_jd8vj")]
+position = Vector2(0, -10)
+
+[node name="HeadSprite" parent="HumanoidHead" index="0"]
+position = Vector2(0, -20.5)
+texture = ExtResource("5_dkhvq")
+
+[node name="HumanoidHand" parent="." instance=ExtResource("3_dm026")]
+position = Vector2(-5.5, 6.5)
+
+[node name="HandSprite" parent="HumanoidHand" index="0"]
+position = Vector2(2.5, -9.5)
+texture = ExtResource("7_4x1hb")
+
+[node name="NpcCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 14)
+shape = SubResource("CircleShape2D_7ggf4")
+
+[node name="HurtboxComponent" parent="." instance=ExtResource("4_vtec7")]
+visible = false
+collision_layer = 4
+collision_mask = 9
+
+[node name="CollisionShape2D" parent="HurtboxComponent" index="0"]
+position = Vector2(0.5, -9.5)
+shape = SubResource("RectangleShape2D_jn75t")
+
+[connection signal="mouse_entered" from="HurtboxComponent" to="." method="_on_hurtbox_component_mouse_entered"]
+[connection signal="mouse_exited" from="HurtboxComponent" to="." method="_on_hurtbox_component_mouse_exited"]
+
+[editable path="HumanoidBody"]
+[editable path="HumanoidHead"]
+[editable path="HumanoidHand"]
+[editable path="HurtboxComponent"]

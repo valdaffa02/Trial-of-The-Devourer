@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://hje1mmyvqlpw"]
+
+[ext_resource type="Script" path="res://scenes/characters/player/player_sfx_example.gd" id="1_vk3mg"]
+[ext_resource type="AudioStream" uid="uid://bbg6dgsrhxmwa" path="res://assets/sounds/PlayerSFX.ogg" id="1_x3o3m"]
+
+[node name="PlayerSFXExample" type="Node"]
+script = ExtResource("1_vk3mg")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("1_x3o3m")
+volume_db = -7.647
+bus = &"SFX"

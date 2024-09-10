@@ -1,0 +1,72 @@
+[gd_scene load_steps=15 format=3 uid="uid://b31bu6gl3y1og"]
+
+[ext_resource type="PackedScene" uid="uid://woqyb8nubk4u" path="res://scenes/characters/races/humanoid/humanoid_body.tscn" id="1_nd4c4"]
+[ext_resource type="Script" path="res://scenes/characters/enemies/enemy.gd" id="1_pdv48"]
+[ext_resource type="Texture2D" uid="uid://brlunp5dw8qxh" path="res://assets/images/characters/enemy/EnemyWalkAnimHeadless.png" id="2_bg4qj"]
+[ext_resource type="PackedScene" uid="uid://ccwvb1sbqsw6k" path="res://scenes/uis/hud/health_bar.tscn" id="2_vwknd"]
+[ext_resource type="PackedScene" uid="uid://dps7hnx6wx086" path="res://scenes/characters/races/humanoid/humanoid_head.tscn" id="3_6l2m4"]
+[ext_resource type="Texture2D" uid="uid://jd7ufshsj33e" path="res://assets/images/characters/enemy/EnemyHead1.png" id="4_33bi6"]
+[ext_resource type="PackedScene" uid="uid://5vx2dudbqfw7" path="res://scenes/characters/races/humanoid/humanoid_hand.tscn" id="5_w747n"]
+[ext_resource type="Texture2D" uid="uid://co0flygboiskp" path="res://assets/images/characters/enemy/EnemyHand.png" id="6_sbbm8"]
+[ext_resource type="Script" path="res://scenes/characters/enemies/enemy_hand.gd" id="7_567m6"]
+[ext_resource type="PackedScene" uid="uid://b0gtefpxfqvfp" path="res://scenes/commons/components/hurtbox_component/hurtbox_component.tscn" id="8_agvr4"]
+[ext_resource type="PackedScene" uid="uid://cgsc7fbor8xoq" path="res://scenes/commons/components/stat_component/stat_component.tscn" id="8_nko0h"]
+[ext_resource type="PackedScene" uid="uid://cyjork57egy3r" path="res://scenes/commons/components/attack_component/attack_component.tscn" id="9_pnasf"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wudyt"]
+radius = 5.65685
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m2h3b"]
+size = Vector2(16.5, 33)
+
+[node name="Enemy" type="CharacterBody2D" groups=["enemies"]]
+motion_mode = 1
+script = ExtResource("1_pdv48")
+
+[node name="Body" parent="." instance=ExtResource("1_nd4c4")]
+
+[node name="BodySprite" parent="Body" index="0"]
+texture = ExtResource("2_bg4qj")
+
+[node name="Head" parent="." instance=ExtResource("3_6l2m4")]
+position = Vector2(0, -10)
+
+[node name="HeadSprite" parent="Head" index="0"]
+texture = ExtResource("4_33bi6")
+
+[node name="Hand" parent="." instance=ExtResource("5_w747n")]
+position = Vector2(-5.5, 7)
+script = ExtResource("7_567m6")
+
+[node name="HandSprite" parent="Hand" index="0"]
+texture = ExtResource("6_sbbm8")
+
+[node name="AttackComponent" parent="." instance=ExtResource("9_pnasf")]
+
+[node name="StatComponent" parent="." instance=ExtResource("8_nko0h")]
+max_health = 100
+max_magic = 100
+max_stamina = 100
+
+[node name="HealthBar" parent="." node_paths=PackedStringArray("stat_component") instance=ExtResource("2_vwknd")]
+offset_left = -12.0
+offset_top = -23.0
+offset_right = 13.0
+offset_bottom = -21.0
+stat_component = NodePath("../StatComponent")
+
+[node name="EnemyCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 12)
+shape = SubResource("CircleShape2D_wudyt")
+
+[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("stat_component") instance=ExtResource("8_agvr4")]
+stat_component = NodePath("../StatComponent")
+
+[node name="CollisionShape2D" parent="HurtboxComponent" index="0"]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_m2h3b")
+
+[editable path="Body"]
+[editable path="Head"]
+[editable path="Hand"]
+[editable path="HurtboxComponent"]

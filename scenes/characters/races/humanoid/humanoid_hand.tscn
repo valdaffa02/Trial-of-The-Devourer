@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://5vx2dudbqfw7"]
+
+[ext_resource type="Texture2D" uid="uid://nn675qkmeb2b" path="res://assets/images/characters/player/Hand.png" id="1_s3jg5"]
+[ext_resource type="PackedScene" uid="uid://dkrux715ysjvs" path="res://scenes/characters/stateMachine/state_machine.tscn" id="2_uag17"]
+
+[node name="HumanoidHand" type="Node2D"]
+texture_filter = 1
+
+[node name="HandSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_s3jg5")
+
+[node name="HandgearSprite" type="Sprite2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+
+[node name="StateMachine" parent="." instance=ExtResource("2_uag17")]

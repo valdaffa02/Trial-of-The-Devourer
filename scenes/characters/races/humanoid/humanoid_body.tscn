@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://woqyb8nubk4u"]
+
+[ext_resource type="Texture2D" uid="uid://4a57dcyfp3cw" path="res://assets/images/characters/player/WalkAnimHeadless.png" id="1_ede7t"]
+
+[node name="HumanoidBody" type="Node2D"]
+texture_filter = 1
+
+[node name="BodySprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_ede7t")
+hframes = 4
+vframes = 2
+
+[node name="OutfitSprite" type="Sprite2D" parent="."]
+
+[node name="AccessorySprite" type="Sprite2D" parent="."]

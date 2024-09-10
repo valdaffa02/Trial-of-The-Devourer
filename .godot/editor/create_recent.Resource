@@ -1,0 +1,2 @@
+PlayerKeybindResources
+DefaultSettingsResource

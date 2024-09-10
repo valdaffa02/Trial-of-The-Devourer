@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://ri5ry85paxo6"]
+
+[ext_resource type="Script" path="res://scenes/commons/items/consumable.gd" id="1_cdphx"]
+[ext_resource type="PackedScene" uid="uid://8q6gm7o444bp" path="res://scenes/commons/items/pickup_area.tscn" id="2_y2r6a"]
+
+[node name="Consumable" type="Node2D" groups=["Items"]]
+script = ExtResource("1_cdphx")
+
+[node name="ItemSprite" type="Sprite2D" parent="."]
+
+[node name="PickupArea" parent="." instance=ExtResource("2_y2r6a")]
+
+[connection signal="body_entered" from="PickupArea" to="." method="_on_pickup_area_body_entered"]
+[connection signal="body_exited" from="PickupArea" to="." method="_on_pickup_area_body_exited"]

@@ -1,0 +1,12 @@
+join main_heroine left [animation="Fade In Up"]
+main_heroine: Hello traveller!
+main_heroine: This is a test dialogue sequence..
+main_heroine: I'm not sure how long this is going to take..
+main_heroine: But I hope you don't mind this..
+main_heroine: ....
+main_heroine: In the meanwhile, I got this for you..
+join health_potion center [animation="Fade In"]
+main_heroine: I brew it myself.
+leave health_potion [animation="Fade Out"]
+main_heroine: ....
+main_heroine: ....

@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://co5xf3e0rsu03"]
+
+[ext_resource type="Script" path="res://scenes/commons/items/weapons/ranged/wooden_bow.gd" id="1_v74yf"]
+[ext_resource type="Texture2D" uid="uid://dinkwqiruynu1" path="res://assets/images/commons/items/Bow.png" id="2_ktp4s"]
+[ext_resource type="PackedScene" uid="uid://8q6gm7o444bp" path="res://scenes/commons/items/pickup_area.tscn" id="3_uujbh"]
+
+[node name="WoodenBow" type="Node2D"]
+script = ExtResource("1_v74yf")
+item_id = "3"
+item_type = "Weapon Ranged"
+item_name = "Wooden Bow"
+item_texture = ExtResource("2_ktp4s")
+item_description = "A bow made of wood"
+scene_path = "res://scenes/commons/items/weapons/ranged/wooden_bow.tscn"
+
+[node name="ItemSprite" type="Sprite2D" parent="."]
+position = Vector2(0, -3)
+rotation = 1.5708
+texture = ExtResource("2_ktp4s")
+
+[node name="PickupArea" parent="." instance=ExtResource("3_uujbh")]
+
+[connection signal="body_entered" from="PickupArea" to="." method="_on_pickup_area_body_entered"]
+[connection signal="body_exited" from="PickupArea" to="." method="_on_pickup_area_body_exited"]

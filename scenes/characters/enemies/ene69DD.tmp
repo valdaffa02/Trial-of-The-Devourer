@@ -1,0 +1,653 @@
+[gd_scene load_steps=67 format=3 uid="uid://mlcpsxiin3r"]
+
+[ext_resource type="Script" path="res://scenes/characters/enemies/enemy_ranged.gd" id="1_5sn1k"]
+[ext_resource type="PackedScene" uid="uid://woqyb8nubk4u" path="res://scenes/characters/races/humanoid/humanoid_body.tscn" id="1_sb0bp"]
+[ext_resource type="PackedScene" uid="uid://dps7hnx6wx086" path="res://scenes/characters/races/humanoid/humanoid_head.tscn" id="2_1e04m"]
+[ext_resource type="Texture2D" uid="uid://brlunp5dw8qxh" path="res://assets/images/characters/enemy/EnemyWalkAnimHeadless.png" id="2_vf62i"]
+[ext_resource type="PackedScene" uid="uid://5vx2dudbqfw7" path="res://scenes/characters/races/humanoid/humanoid_hand.tscn" id="3_43aiu"]
+[ext_resource type="Texture2D" uid="uid://jd7ufshsj33e" path="res://assets/images/characters/enemy/EnemyHead1.png" id="4_q7msa"]
+[ext_resource type="Script" path="res://scenes/characters/enemies/enemy_hand.gd" id="6_6bqv0"]
+[ext_resource type="Texture2D" uid="uid://co0flygboiskp" path="res://assets/images/characters/enemy/EnemyHand.png" id="6_mwjpg"]
+[ext_resource type="PackedScene" uid="uid://cyjork57egy3r" path="res://scenes/commons/components/attack_component/attack_component.tscn" id="7_7xuj3"]
+[ext_resource type="PackedScene" uid="uid://b0gtefpxfqvfp" path="res://scenes/commons/components/hurtbox_component/hurtbox_component.tscn" id="7_pk1xf"]
+[ext_resource type="Animation" uid="uid://cwf45c0buaqys" path="res://scenes/resources/animations/characters/humanoid/humanoid_hand/idle.res" id="8_aq70q"]
+[ext_resource type="PackedScene" uid="uid://cgsc7fbor8xoq" path="res://scenes/commons/components/stat_component/stat_component.tscn" id="8_nw8h1"]
+[ext_resource type="PackedScene" uid="uid://ccwvb1sbqsw6k" path="res://scenes/uis/hud/health_bar.tscn" id="8_soxde"]
+[ext_resource type="Animation" uid="uid://bfuq3ohcfbqh7" path="res://scenes/resources/animations/characters/humanoid/humanoid_hand/ranged_attack_hold.res" id="9_rmeky"]
+[ext_resource type="Animation" uid="uid://dk4ctcjrcxla2" path="res://scenes/resources/animations/characters/humanoid/humanoid_hand/ranged_attack_active.res" id="10_r5fn0"]
+[ext_resource type="Script" path="res://scenes/characters/enemies/hand_ranged_idle_state.gd" id="11_yu8dw"]
+[ext_resource type="Script" path="res://scenes/characters/enemies/hand_ranged_attack_state.gd" id="12_tjb68"]
+[ext_resource type="PackedScene" uid="uid://dkrux715ysjvs" path="res://scenes/characters/stateMachine/state_machine.tscn" id="15_n75wx"]
+[ext_resource type="Script" path="res://scenes/characters/enemies/idle_state.gd" id="16_iy44k"]
+[ext_resource type="Script" path="res://scenes/characters/enemies/wander_state.gd" id="17_l0jw8"]
+[ext_resource type="Script" path="res://scenes/characters/enemies/chase_state.gd" id="18_kgqdx"]
+[ext_resource type="Script" path="res://scenes/characters/enemies/retreat_state.gd" id="19_n6xcs"]
+[ext_resource type="Script" path="res://scenes/characters/enemies/ray_cast_2d.gd" id="23_yliwv"]
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bopc2"]
+_data = {
+"idle": ExtResource("8_aq70q"),
+"ranged_attack_active": ExtResource("10_r5fn0"),
+"ranged_attack_hold": ExtResource("9_rmeky")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uipvo"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7ud61"]
+animation = &"ranged_attack_active"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dm25i"]
+animation = &"ranged_attack_hold"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ih5mp"]
+switch_mode = 2
+advance_mode = 2
+advance_condition = &"is_idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3ihdg"]
+advance_mode = 2
+advance_condition = &"is_attack_hold"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1ao2r"]
+switch_mode = 2
+advance_mode = 2
+advance_condition = &"is_attack_released"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2u42w"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ynlcv"]
+switch_mode = 2
+advance_mode = 2
+advance_condition = &"is_attack_hold"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6wtbr"]
+switch_mode = 2
+advance_mode = 2
+advance_condition = &"is_idle"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_vw0cy"]
+states/idle/node = SubResource("AnimationNodeAnimation_uipvo")
+states/idle/position = Vector2(375, 100)
+states/ranged_attack_active/node = SubResource("AnimationNodeAnimation_7ud61")
+states/ranged_attack_active/position = Vector2(517, 12)
+states/ranged_attack_hold/node = SubResource("AnimationNodeAnimation_dm25i")
+states/ranged_attack_hold/position = Vector2(689, 100)
+transitions = ["ranged_attack_active", "idle", SubResource("AnimationNodeStateMachineTransition_ih5mp"), "idle", "ranged_attack_hold", SubResource("AnimationNodeStateMachineTransition_3ihdg"), "ranged_attack_hold", "ranged_attack_active", SubResource("AnimationNodeStateMachineTransition_1ao2r"), "Start", "idle", SubResource("AnimationNodeStateMachineTransition_2u42w"), "ranged_attack_active", "ranged_attack_hold", SubResource("AnimationNodeStateMachineTransition_ynlcv"), "ranged_attack_hold", "idle", SubResource("AnimationNodeStateMachineTransition_6wtbr")]
+graph_offset = Vector2(0, -44.6598)
+
+[sub_resource type="Animation" id="Animation_exa37"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hand:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Body/BodySprite:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_53b7c"]
+resource_name = "idle_l"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hand:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Body/BodySprite:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_o105h"]
+resource_name = "idle_r"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hand:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Body/BodySprite:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_1yak7"]
+resource_name = "walk_l"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hand:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Body/BodySprite:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 2]
+}
+
+[sub_resource type="Animation" id="Animation_qgnu4"]
+resource_name = "walk_r"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hand:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Body/BodySprite:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [1, 0, 3, 2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uea37"]
+_data = {
+"RESET": SubResource("Animation_exa37"),
+"idle_l": SubResource("Animation_53b7c"),
+"idle_r": SubResource("Animation_o105h"),
+"walk_l": SubResource("Animation_1yak7"),
+"walk_r": SubResource("Animation_qgnu4")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3j75b"]
+animation = &"walk_l"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qav5x"]
+animation = &"walk_r"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_0s8ci"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_3j75b")
+blend_point_0/pos = -0.01
+blend_point_1/node = SubResource("AnimationNodeAnimation_qav5x")
+blend_point_1/pos = 0.01
+snap = 0.01
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ivyll"]
+animation = &"idle_l"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gicp7"]
+animation = &"idle_r"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_sfemg"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_ivyll")
+blend_point_0/pos = -0.01
+blend_point_1/node = SubResource("AnimationNodeAnimation_gicp7")
+blend_point_1/pos = 0.01
+snap = 0.01
+blend_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kjpaj"]
+animation = &"walk_l"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pfiq4"]
+animation = &"walk_r"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_l737s"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_kjpaj")
+blend_point_0/pos = -0.01
+blend_point_1/node = SubResource("AnimationNodeAnimation_pfiq4")
+blend_point_1/pos = 0.01
+snap = 0.01
+blend_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_im4p6"]
+animation = &"walk_l"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bclh3"]
+animation = &"walk_r"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_jbtmb"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_im4p6")
+blend_point_0/pos = -0.01
+blend_point_1/node = SubResource("AnimationNodeAnimation_bclh3")
+blend_point_1/pos = 0.01
+snap = 0.01
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6lgxs"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_slnor"]
+advance_mode = 2
+advance_condition = &"is_wandering"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xsud0"]
+advance_mode = 2
+advance_condition = &"is_chasing"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_g35sq"]
+advance_mode = 2
+advance_condition = &"is_idling"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8wlk6"]
+advance_mode = 2
+advance_condition = &"is_idling"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_stfw3"]
+advance_mode = 2
+advance_condition = &"is_chasing"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3c2o3"]
+advance_mode = 2
+advance_condition = &"is_retreating"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_e6dtj"]
+advance_mode = 2
+advance_condition = &"is_idling"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cqehh"]
+advance_mode = 2
+advance_condition = &"is_chasing"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_8cifi"]
+states/Chase/node = SubResource("AnimationNodeBlendSpace1D_0s8ci")
+states/Chase/position = Vector2(668, 142)
+states/Idle/node = SubResource("AnimationNodeBlendSpace1D_sfemg")
+states/Idle/position = Vector2(370, 142)
+states/Retreat/node = SubResource("AnimationNodeBlendSpace1D_l737s")
+states/Retreat/position = Vector2(475, 4)
+states/Wander/node = SubResource("AnimationNodeBlendSpace1D_jbtmb")
+states/Wander/position = Vector2(484, 282)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_6lgxs"), "Idle", "Wander", SubResource("AnimationNodeStateMachineTransition_slnor"), "Wander", "Chase", SubResource("AnimationNodeStateMachineTransition_xsud0"), "Chase", "Idle", SubResource("AnimationNodeStateMachineTransition_g35sq"), "Wander", "Idle", SubResource("AnimationNodeStateMachineTransition_8wlk6"), "Idle", "Chase", SubResource("AnimationNodeStateMachineTransition_stfw3"), "Idle", "Retreat", SubResource("AnimationNodeStateMachineTransition_3c2o3"), "Retreat", "Idle", SubResource("AnimationNodeStateMachineTransition_e6dtj"), "Retreat", "Chase", SubResource("AnimationNodeStateMachineTransition_cqehh")]
+graph_offset = Vector2(-61, -17)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3grox"]
+radius = 6.08276
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vefqk"]
+size = Vector2(17.25, 33)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qk88e"]
+radius = 251.002
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a5mem"]
+radius = 175.003
+
+[node name="EnemyRanged" type="CharacterBody2D" groups=["Enemies"]]
+scale = Vector2(2, 2)
+collision_layer = 8
+collision_mask = 11
+motion_mode = 1
+script = ExtResource("1_5sn1k")
+
+[node name="Body" parent="." instance=ExtResource("1_sb0bp")]
+position = Vector2(0, -14)
+
+[node name="BodySprite" parent="Body" index="0"]
+texture = ExtResource("2_vf62i")
+
+[node name="Head" parent="." instance=ExtResource("2_1e04m")]
+position = Vector2(0, -13)
+
+[node name="HeadSprite" parent="Head" index="0"]
+texture = ExtResource("4_q7msa")
+offset = Vector2(0, -11)
+
+[node name="Hand" parent="." instance=ExtResource("3_43aiu")]
+position = Vector2(0, -14)
+script = ExtResource("6_6bqv0")
+
+[node name="HandSprite" parent="Hand" index="0"]
+position = Vector2(-5.5, 6.5)
+texture = ExtResource("6_mwjpg")
+
+[node name="AnimationPlayer" parent="Hand" index="2"]
+libraries = {
+"": SubResource("AnimationLibrary_bopc2")
+}
+
+[node name="AnimationTree" parent="Hand" index="3"]
+tree_root = SubResource("AnimationNodeStateMachine_vw0cy")
+anim_player = NodePath("../AnimationPlayer")
+parameters/conditions/is_attack_hold = false
+parameters/conditions/is_attack_released = false
+parameters/conditions/is_idle = false
+
+[node name="StateMachine" parent="Hand" index="4" node_paths=PackedStringArray("initial_state")]
+initial_state = NodePath("HandRangedIdleState")
+
+[node name="HandRangedIdleState" type="Node" parent="Hand/StateMachine" index="0" node_paths=PackedStringArray("enemy", "hand_animation_tree")]
+script = ExtResource("11_yu8dw")
+enemy = NodePath("../../..")
+hand_animation_tree = NodePath("../../AnimationTree")
+
+[node name="HandRangedAttackState" type="Node" parent="Hand/StateMachine" index="1" node_paths=PackedStringArray("enemy", "hand_animation_tree")]
+script = ExtResource("12_tjb68")
+enemy = NodePath("../../..")
+hand_animation_tree = NodePath("../../AnimationTree")
+
+[node name="AimHoldTimer" type="Timer" parent="Hand/StateMachine/HandRangedAttackState"]
+
+[node name="AttackComponent" parent="Hand" instance=ExtResource("7_7xuj3")]
+attack_damage = 10.0
+
+[node name="BodyAnimPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_uea37")
+}
+
+[node name="BodyAnimTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_8cifi")
+anim_player = NodePath("../BodyAnimPlayer")
+parameters/conditions/is_chasing = false
+parameters/conditions/is_idling = false
+parameters/conditions/is_retreating = false
+parameters/conditions/is_wandering = false
+parameters/Chase/blend_position = 0
+parameters/Idle/blend_position = 0
+parameters/Retreat/blend_position = 0
+parameters/Wander/blend_position = 0
+
+[node name="StateMachine" parent="." node_paths=PackedStringArray("initial_state") instance=ExtResource("15_n75wx")]
+initial_state = NodePath("IdleState")
+
+[node name="IdleState" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "body_animation_tree", "trans_cooldown_timer")]
+script = ExtResource("16_iy44k")
+enemy = NodePath("../..")
+body_animation_tree = NodePath("../../BodyAnimTree")
+trans_cooldown_timer = NodePath("../TransCooldownTimer")
+
+[node name="IdleTimer" type="Timer" parent="StateMachine/IdleState"]
+
+[node name="WanderState" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "body_animation_tree")]
+script = ExtResource("17_l0jw8")
+enemy = NodePath("../..")
+body_animation_tree = NodePath("../../BodyAnimTree")
+
+[node name="WanderTimer" type="Timer" parent="StateMachine/WanderState"]
+
+[node name="ChaseState" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "body_animation_tree")]
+script = ExtResource("18_kgqdx")
+enemy = NodePath("../..")
+body_animation_tree = NodePath("../../BodyAnimTree")
+
+[node name="NavigationTimer" type="Timer" parent="StateMachine/ChaseState"]
+wait_time = 0.1
+autostart = true
+
+[node name="RetreatState" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "body_animation_tree", "trans_cooldown_timer")]
+script = ExtResource("19_n6xcs")
+enemy = NodePath("../..")
+body_animation_tree = NodePath("../../BodyAnimTree")
+trans_cooldown_timer = NodePath("../TransCooldownTimer")
+
+[node name="TransCooldownTimer" type="Timer" parent="StateMachine"]
+wait_time = 0.4
+
+[node name="EnemyCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_3grox")
+
+[node name="HealthBar" parent="." node_paths=PackedStringArray("stat_component") instance=ExtResource("8_soxde")]
+offset_left = -12.5
+offset_top = -38.0
+offset_right = 12.5
+offset_bottom = -36.0
+stat_component = NodePath("../StatComponent")
+
+[node name="StatComponent" parent="." instance=ExtResource("8_nw8h1")]
+max_health = 100
+max_magic = 100
+max_stamina = 100
+
+[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("stat_component") instance=ExtResource("7_pk1xf")]
+position = Vector2(0, -14)
+collision_layer = 8
+collision_mask = 3
+stat_component = NodePath("../StatComponent")
+
+[node name="CollisionShape2D" parent="HurtboxComponent" index="0"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_vefqk")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+position = Vector2(0, -13)
+collision_layer = 8
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_qk88e")
+
+[node name="AttackArea" type="Area2D" parent="."]
+position = Vector2(0, -13)
+collision_layer = 8
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+shape = SubResource("CircleShape2D_a5mem")
+debug_color = Color(0.933333, 0.203922, 0.4, 0.2)
+
+[node name="ActionCooldownTimer" type="Timer" parent="."]
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+debug_enabled = true
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+script = ExtResource("23_yliwv")
+
+[node name="DebugControl" type="VBoxContainer" parent="."]
+offset_left = 15.32
+offset_top = -32.99
+offset_right = 55.32
+offset_bottom = 27.01
+scale = Vector2(0.25, 0.25)
+
+[node name="BodyState" type="Label" parent="DebugControl"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+
+[node name="LineOfSight" type="Label" parent="DebugControl"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+
+[connection signal="animation_finished" from="Hand/AnimationTree" to="Hand/StateMachine/HandRangedAttackState" method="_on_animation_tree_animation_finished"]
+[connection signal="timeout" from="Hand/StateMachine/HandRangedAttackState/AimHoldTimer" to="Hand/StateMachine/HandRangedAttackState" method="_on_aim_hold_timer_timeout"]
+[connection signal="timeout" from="StateMachine/IdleState/IdleTimer" to="StateMachine/IdleState" method="_on_idle_timer_timeout"]
+[connection signal="timeout" from="StateMachine/WanderState/WanderTimer" to="StateMachine/WanderState" method="_on_wander_timer_timeout"]
+[connection signal="timeout" from="StateMachine/ChaseState/NavigationTimer" to="StateMachine/ChaseState" method="_on_navigation_timer_timeout"]
+[connection signal="timeout" from="StateMachine/TransCooldownTimer" to="StateMachine/IdleState" method="_on_trans_cooldown_timer_timeout"]
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]
+[connection signal="timeout" from="ActionCooldownTimer" to="." method="_on_action_cooldown_timer_timeout"]
+
+[editable path="Body"]
+[editable path="Head"]
+[editable path="Hand"]
+[editable path="HurtboxComponent"]

@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bgrdtxg3n1bvs"]
+
+[ext_resource type="Script" path="res://scenes/commons/items/projectiles/projectile.gd" id="1_4p5bf"]
+[ext_resource type="PackedScene" uid="uid://ca8ffnxbl42lu" path="res://scenes/commons/components/hitbox_component/hitbox_component.tscn" id="2_byy7t"]
+
+[node name="Projectile" type="CharacterBody2D"]
+script = ExtResource("1_4p5bf")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="HitboxComponent" parent="." instance=ExtResource("2_byy7t")]
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="area_entered" from="HitboxComponent" to="." method="_on_hitbox_component_area_entered"]
+[connection signal="body_entered" from="HitboxComponent" to="." method="_on_hitbox_component_body_entered"]
+[connection signal="body_shape_entered" from="HitboxComponent" to="." method="_on_hitbox_component_body_shape_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

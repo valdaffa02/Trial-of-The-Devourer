@@ -1,0 +1,30 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+"_translation_id": "",
+"color": Color(1, 1, 1, 1),
+"custom_info": {
+"sound_mood_default": "",
+"sound_moods": {},
+"style": ""
+},
+"default_portrait": "health_potion",
+"description": "",
+"display_name": "health_potion",
+"mirror": false,
+"nicknames": [""],
+"offset": Vector2(0, 0),
+"portraits": {
+"health_potion": {
+"export_overrides": {
+"image": "\"res://assets/images/commons/items/HealthPotion.png\""
+},
+"ignore_char_scale": false,
+"mirror": false,
+"offset": Vector2(0, -170),
+"scale": 0.2,
+"scene": ""
+}
+},
+"scale": 1.0
+}

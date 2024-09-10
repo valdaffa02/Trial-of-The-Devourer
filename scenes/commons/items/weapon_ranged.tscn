@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://du1pla4c14bp2"]
+
+[ext_resource type="Script" path="res://scenes/commons/items/weapon_ranged.gd" id="1_o51u3"]
+
+[node name="WeaponRanged" type="Node2D"]
+script = ExtResource("1_o51u3")
+
+[node name="ItemSprite" type="Sprite2D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]

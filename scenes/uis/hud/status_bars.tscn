@@ -1,0 +1,95 @@
+[gd_scene load_steps=9 format=3 uid="uid://c7ix2h2vkag5y"]
+
+[ext_resource type="Script" path="res://scenes/uis/hud/status_bars.gd" id="1_kvdjb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ui7t"]
+bg_color = Color(0.180392, 0.180392, 0.180392, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tcdhq"]
+bg_color = Color(0.122252, 0.122252, 0.122252, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_twwtv"]
+bg_color = Color(0.717549, 0, 0.0831787, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kybf7"]
+bg_color = Color(0.180392, 0.180392, 0.180392, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hx6gt"]
+bg_color = Color(0, 0.630245, 0.207631, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xu5wh"]
+bg_color = Color(0.180392, 0.180392, 0.180392, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sqq2y"]
+bg_color = Color(0, 0.417838, 0.739676, 1)
+
+[node name="StatusBars" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource("1_kvdjb")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 98.0
+theme_override_constants/separation = 0
+
+[node name="HealthBar" type="PanelContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(300, 40)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7ui7t")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HealthBar"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HealthProgressBar" type="ProgressBar" parent="VBoxContainer/HealthBar/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_tcdhq")
+theme_override_styles/fill = SubResource("StyleBoxFlat_twwtv")
+value = 100.0
+show_percentage = false
+
+[node name="StaminaBar" type="PanelContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kybf7")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/StaminaBar"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="StaminaProgressBar" type="ProgressBar" parent="VBoxContainer/StaminaBar/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_tcdhq")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hx6gt")
+value = 100.0
+show_percentage = false
+
+[node name="MagicBar" type="PanelContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xu5wh")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MagicBar"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="MagicProgressBar" type="ProgressBar" parent="VBoxContainer/MagicBar/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_tcdhq")
+theme_override_styles/fill = SubResource("StyleBoxFlat_sqq2y")
+value = 100.0
+show_percentage = false

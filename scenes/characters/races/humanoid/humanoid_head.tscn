@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://dps7hnx6wx086"]
+
+[ext_resource type="Texture2D" uid="uid://c2fdgh5uqaqxu" path="res://assets/images/characters/player/Head1.png" id="1_m1bdm"]
+
+[node name="HumanoidHead" type="Node2D"]
+texture_filter = 1
+
+[node name="HeadSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_m1bdm")
+
+[node name="HeadgearSprite" type="Sprite2D" parent="."]

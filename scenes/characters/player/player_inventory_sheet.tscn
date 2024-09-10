@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://d2y650i0u073l"]
+
+[ext_resource type="PackedScene" uid="uid://woqyb8nubk4u" path="res://scenes/characters/races/humanoid/humanoid_body.tscn" id="1_4y5hy"]
+[ext_resource type="Script" path="res://scenes/characters/player/player_inventory_sheet.gd" id="1_cbips"]
+[ext_resource type="PackedScene" uid="uid://dps7hnx6wx086" path="res://scenes/characters/races/humanoid/humanoid_head.tscn" id="2_5e5wx"]
+[ext_resource type="PackedScene" uid="uid://5vx2dudbqfw7" path="res://scenes/characters/races/humanoid/humanoid_hand.tscn" id="3_xrdhx"]
+
+[node name="PlayerInventorySheet" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_cbips")
+
+[node name="Container" type="Container" parent="."]
+layout_mode = 0
+offset_right = 35.0
+offset_bottom = 44.0
+
+[node name="HumanoidBody" parent="Container" instance=ExtResource("1_4y5hy")]
+position = Vector2(13.5, 24)
+
+[node name="HumanoidHead" parent="Container" instance=ExtResource("2_5e5wx")]
+position = Vector2(13.5, 14)
+
+[node name="HumanoidHand" parent="Container" instance=ExtResource("3_xrdhx")]
+position = Vector2(8, 30.5)

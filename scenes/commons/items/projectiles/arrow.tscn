@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://ut1s0dlrs1gl"]
+
+[ext_resource type="Script" path="res://scenes/commons/items/projectiles/projectile.gd" id="1_32r77"]
+[ext_resource type="PackedScene" uid="uid://ca8ffnxbl42lu" path="res://scenes/commons/components/hitbox_component/hitbox_component.tscn" id="1_p5s3x"]
+[ext_resource type="Texture2D" uid="uid://ccdqy8hyinerv" path="res://assets/images/commons/items/Arrow.png" id="2_h6lt1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bjtim"]
+size = Vector2(20, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cls0e"]
+size = Vector2(5, 6.5)
+
+[node name="Arrow" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_32r77")
+item_name = "arrow"
+speed = 200
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(14, 0)
+texture = ExtResource("2_h6lt1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(13, 0)
+shape = SubResource("RectangleShape2D_bjtim")
+
+[node name="HitboxComponent" parent="." instance=ExtResource("1_p5s3x")]
+position = Vector2(12, 0)
+monitorable = true
+
+[node name="CollisionShape2D" parent="HitboxComponent" index="0"]
+position = Vector2(13.5, 0)
+shape = SubResource("RectangleShape2D_cls0e")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="area_entered" from="HitboxComponent" to="." method="_on_hitbox_component_area_entered"]
+[connection signal="body_entered" from="HitboxComponent" to="." method="_on_hitbox_component_body_entered"]
+[connection signal="body_shape_entered" from="HitboxComponent" to="." method="_on_hitbox_component_body_shape_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+
+[editable path="HitboxComponent"]

@@ -1,0 +1,94 @@
+[gd_scene load_steps=5 format=3 uid="uid://kyqh7fqr4xyw"]
+
+[ext_resource type="Script" path="res://scenes/uis/ingame_menu/ingame_menu.gd" id="1_hk155"]
+[ext_resource type="PackedScene" uid="uid://jcycukqp83gw" path="res://scenes/uis/setting_menu/settings_menu.tscn" id="2_42xcq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_larxc"]
+bg_color = Color(0.215686, 0.215686, 0.215686, 0.792157)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4i06s"]
+bg_color = Color(0.162066, 0.162066, 0.162065, 1)
+
+[node name="IngameMenu" type="Control"]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hk155")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_larxc")
+
+[node name="IngameMenuContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="IngameMenuContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 200
+
+[node name="Control" type="Control" parent="IngameMenuContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="IngameMenuContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4i06s")
+
+[node name="MarginContainer" type="MarginContainer" parent="IngameMenuContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainerOptions" type="VBoxContainer" parent="IngameMenuContainer/HBoxContainer/PanelContainer/MarginContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="Continue" type="Button" parent="IngameMenuContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainerOptions"]
+layout_mode = 2
+text = "Continue
+"
+
+[node name="Load" type="Button" parent="IngameMenuContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainerOptions"]
+layout_mode = 2
+text = "Load Game"
+
+[node name="Settings" type="Button" parent="IngameMenuContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainerOptions"]
+layout_mode = 2
+text = "Settings"
+
+[node name="MainMenu" type="Button" parent="IngameMenuContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainerOptions"]
+layout_mode = 2
+text = "Main Menu"
+
+[node name="Control2" type="Control" parent="IngameMenuContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SettingsMenu" parent="." instance=ExtResource("2_42xcq")]
+visible = false
+layout_mode = 1
+
+[connection signal="pressed" from="IngameMenuContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainerOptions/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="IngameMenuContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainerOptions/Load" to="." method="_on_load_pressed"]
+[connection signal="pressed" from="IngameMenuContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainerOptions/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="IngameMenuContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainerOptions/MainMenu" to="." method="_on_main_menu_pressed"]

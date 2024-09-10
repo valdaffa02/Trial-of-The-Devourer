@@ -1,0 +1,116 @@
+[gd_scene load_steps=7 format=3 uid="uid://2khy4uwrtv6x"]
+
+[ext_resource type="Script" path="res://scenes/uis/main_menu/main_menu.gd" id="1_a675d"]
+[ext_resource type="Texture2D" uid="uid://rgng6v626ov1" path="res://assets/images/uis/main_menu_bg.png" id="2_n2iud"]
+[ext_resource type="Script" path="res://scenes/uis/main_menu/main_menu_container.gd" id="3_yx0mv"]
+[ext_resource type="PackedScene" uid="uid://jcycukqp83gw" path="res://scenes/uis/setting_menu/settings_menu.tscn" id="4_8deqf"]
+[ext_resource type="AudioStream" uid="uid://10uhjaodb1ww" path="res://assets/sounds/MainMenuMusic.ogg" id="5_evbbn"]
+
+[sub_resource type="SystemFont" id="SystemFont_ypr8m"]
+font_names = PackedStringArray("Impact")
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_a675d")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_n2iud")
+expand_mode = 5
+
+[node name="MainMenuContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(48, 68)
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+script = ExtResource("3_yx0mv")
+
+[node name="VBoxContainerTitle" type="VBoxContainer" parent="MainMenuContainer"]
+layout_mode = 2
+theme_override_constants/separation = 120
+
+[node name="Separator" type="Control" parent="MainMenuContainer/VBoxContainerTitle"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MainMenuContainer/VBoxContainerTitle"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.270588, 0.156863, 0.235294, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 0
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 5
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = SubResource("SystemFont_ypr8m")
+theme_override_font_sizes/font_size = 64
+text = "TRIAL OF THE DEVOURER"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenuContainer"]
+layout_mode = 2
+theme_override_constants/separation = 200
+alignment = 1
+
+[node name="Control" type="Control" parent="MainMenuContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainerOptions" type="VBoxContainer" parent="MainMenuContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="Play" type="Button" parent="MainMenuContainer/HBoxContainer/VBoxContainerOptions"]
+layout_mode = 2
+text = "Play"
+
+[node name="Load" type="Button" parent="MainMenuContainer/HBoxContainer/VBoxContainerOptions"]
+layout_mode = 2
+text = "Load Game"
+
+[node name="Settings" type="Button" parent="MainMenuContainer/HBoxContainer/VBoxContainerOptions"]
+layout_mode = 2
+text = "Settings"
+
+[node name="Quit" type="Button" parent="MainMenuContainer/HBoxContainer/VBoxContainerOptions"]
+layout_mode = 2
+text = "Quit"
+
+[node name="Control2" type="Control" parent="MainMenuContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SettingsMenu" parent="." instance=ExtResource("4_8deqf")]
+visible = false
+layout_mode = 1
+
+[node name="MusicStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_evbbn")
+volume_db = -15.446
+autoplay = true
+bus = &"Music"
+
+[connection signal="pressed" from="MainMenuContainer/HBoxContainer/VBoxContainerOptions/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="MainMenuContainer/HBoxContainer/VBoxContainerOptions/Load" to="." method="_on_load_pressed"]
+[connection signal="pressed" from="MainMenuContainer/HBoxContainer/VBoxContainerOptions/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="MainMenuContainer/HBoxContainer/VBoxContainerOptions/Quit" to="." method="_on_quit_pressed"]

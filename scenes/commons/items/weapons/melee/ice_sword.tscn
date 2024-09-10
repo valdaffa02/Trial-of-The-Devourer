@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://k3wyorrpc4oi"]
+
+[ext_resource type="Script" path="res://scenes/commons/items/weapon_melee.gd" id="1_67bnt"]
+[ext_resource type="Texture2D" uid="uid://twchbf46cf3f" path="res://assets/images/commons/items/IceSword.png" id="2_wjr7s"]
+[ext_resource type="PackedScene" uid="uid://ca8ffnxbl42lu" path="res://scenes/commons/components/hitbox_component/hitbox_component.tscn" id="3_mp5ra"]
+[ext_resource type="PackedScene" uid="uid://8q6gm7o444bp" path="res://scenes/commons/items/pickup_area.tscn" id="4_w4ulg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vocsi"]
+size = Vector2(19.5, 4)
+
+[node name="IceSword" type="Node2D"]
+texture_filter = 1
+script = ExtResource("1_67bnt")
+item_id = "1"
+item_type = "Melee Weapon"
+item_name = "Ice Sword"
+item_texture = ExtResource("2_wjr7s")
+item_description = "A sword made of magical ice"
+scene_path = "res://scenes/commons/items/weapons/melee/ice_sword.tscn"
+
+[node name="ItemSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_wjr7s")
+offset = Vector2(9, 0)
+
+[node name="HitboxComponent" parent="." instance=ExtResource("3_mp5ra")]
+
+[node name="CollisionShape2D" parent="HitboxComponent" index="0"]
+position = Vector2(13.25, 0)
+shape = SubResource("RectangleShape2D_vocsi")
+
+[node name="PickupArea" parent="." instance=ExtResource("4_w4ulg")]
+
+[connection signal="area_entered" from="HitboxComponent" to="." method="_on_hitbox_component_area_entered"]
+[connection signal="body_entered" from="PickupArea" to="." method="_on_pickup_area_body_entered"]
+[connection signal="body_exited" from="PickupArea" to="." method="_on_pickup_area_body_exited"]
+
+[editable path="HitboxComponent"]
