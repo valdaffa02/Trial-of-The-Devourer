@@ -10,5 +10,7 @@ The game features challenging combat mechanics, using a combination of mouse con
 
 
 Assets being used:
+
 Pixel Art Top Down - Basic by Cainos: https://cainos.itch.io/pixel-art-top-down-basic
+
 WUFO - Hyde Park [Argofox Release]: https://youtu.be/GFohON2Fi8w?si=0JUd98C_HoliqARW
